@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,17 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard-general-dashboard');
+Route::redirect('/', '/dashboard');
 
 // Dashboard
 Route::get('/dashboard-general-dashboard', function () {
     return view('pages.dashboard-general-dashboard', ['type_menu' => 'dashboard']);
 });
-Route::get('/dashboard-ecommerce-dashboard', function () {
+Route::get('/dashboard', function () {
     return view('pages.dashboard-ecommerce-dashboard', ['type_menu' => 'dashboard']);
 });
 
-Route::get('/product-create', [ProductController::class, 'index']);
+Route::resource('/product', ProductController::class);
+
+Route::get('/categories/{parent_id}/children', [CategoryController::class, 'getChildren']);
 
 
 // Layout
