@@ -13,8 +13,6 @@
 
         td {
             vertical-align: middle;
-            height: 50px;
-            line-height: 50px;
         }
     </style>
 @endpush
@@ -44,50 +42,35 @@
                                             <th class="col-1">Image</th>
                                             <th class="col-2">Nama Produk</th>
                                             <th class="col-3">Kategori</th>
+                                            <th class="col-2">Varian</th>
                                             <th class="col-1">Stok</th>
                                             <th class="col-1">Harga</th>
                                             <th class="col-1">Status</th>
                                             <th class="col-1">Action</th>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <img class="table-img" src="{{ asset('img/news/img01.jpg') }}">
-                                            </td>
-                                            <td>Nike air jordan 1</td>
-                                            <td>Fashion Pria - Sepatu Pria</td>
-                                            <td>15</td>
-                                            <td>1.500.000</td>
-                                            <td>
-                                                <div class="badge badge-success">Active</div>
-                                            </td>
-                                            <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img class="table-img" src="{{ asset('img/news/img01.jpg') }}">
-                                            </td>
-                                            <td>Nike air jordan 1</td>
-                                            <td>Fashion Pria - Sepatu Pria</td>
-                                            <td>15</td>
-                                            <td>1.500.000</td>
-                                            <td>
-                                                <div class="badge badge-success">Active</div>
-                                            </td>
-                                            <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img class="table-img" src="{{ asset('img/news/img01.jpg') }}">
-                                            </td>
-                                            <td>Nike air jordan 1</td>
-                                            <td>Fashion Pria - Sepatu Pria</td>
-                                            <td>15</td>
-                                            <td>1.500.000</td>
-                                            <td>
-                                                <div class="badge badge-success">Active</div>
-                                            </td>
-                                            <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                                        </tr>
+                                        @foreach ($products as $product)
+                                            <tr>
+                                                <td>
+                                                    <img class="table-img"
+                                                        src="{{ asset('storage/' . $product->images->first()->path) }}">
+                                                </td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>{{ $product->category }}</td>
+                                                @if ($product->variants->isNotEmpty())
+                                                    @php
+                                                        $variantNames = $product->variants->pluck('variant_name')->implode(' - ');
+                                                        $totalStock = $product->variants->sum('stock');
+                                                    @endphp
+                                                    <td>{{ $variantNames }}</td>
+                                                    <td>{{ $totalStock }}</td>
+                                                    <td>{{ $product->variants->first()->price }}</td>
+                                                @endif
+                                                <td>
+                                                    <div class="badge badge-success">Active</div>
+                                                </td>
+                                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                                            </tr>
+                                        @endforeach
                                     </table>
                                 </div>
                             </div>

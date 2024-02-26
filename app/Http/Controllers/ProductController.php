@@ -13,8 +13,11 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $products = Product::with('images', 'variants')->get();
+
         return view('pages.product.index', [
             'type_menu' => 'product',
+            'products' => $products,
         ]);
     }
 
@@ -24,7 +27,7 @@ class ProductController extends Controller
 
         return view('pages.product.create', [
             'type_menu' => 'product',
-            'parentCategories' => $parentCategories
+            'parentCategories' => $parentCategories,
         ]);
     }
 
